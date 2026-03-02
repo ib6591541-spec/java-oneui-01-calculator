@@ -6,6 +6,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -53,6 +57,13 @@ public final class OneUiComponents {
 
             setFont(OneUiTheme.FONT_BUTTON);
             setForeground(textColor);
+    public static class OneButton extends JButton {
+        private boolean pressed;
+
+        public OneButton(String text, boolean primary) {
+            super(text);
+            setFont(OneUiTheme.FONT_BUTTON);
+            setForeground(primary ? Color.WHITE : OneUiTheme.TEXT_PRIMARY);
             setFocusPainted(false);
             setContentAreaFilled(false);
             setBorderPainted(false);

@@ -7,6 +7,8 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import oneui.OneUiComponents.CircleButton;
+import javax.swing.JPanel;
+import oneui.OneUiComponents.OneButton;
 import oneui.OneUiComponents.OneTextField;
 import oneui.OneUiComponents.RoundedPanel;
 import oneui.OneUiDialogs;
@@ -22,6 +24,7 @@ public class CalculatorScreen extends OneUiFrame {
         buildUi();
         pack();
         setSize(Math.max(getWidth(), 520), Math.max(getHeight(), 760));
+        setSize(Math.max(getWidth(), 520), Math.max(getHeight(), 700));
         setLocationRelativeTo(null);
     }
 
