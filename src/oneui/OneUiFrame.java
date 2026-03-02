@@ -46,6 +46,7 @@ public class OneUiFrame extends JFrame {
     public RoundedPanel createCard() {
         RoundedPanel card = new RoundedPanel(OneUiTheme.RADIUS_L);
         card.setAlignmentX(LEFT_ALIGNMENT);
+        card.setPreferredSize(new Dimension(470, 640));
         card.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         return card;
     }

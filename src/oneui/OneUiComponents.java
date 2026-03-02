@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
@@ -41,6 +42,21 @@ public final class OneUiComponents {
         }
     }
 
+    public static class CircleButton extends JButton {
+        private final Color normal;
+        private final Color hover;
+        private final Color press;
+        private boolean isHover;
+        private boolean isPress;
+
+        public CircleButton(String text, Color textColor, Color normal, Color hover, Color press) {
+            super(text);
+            this.normal = normal;
+            this.hover = hover;
+            this.press = press;
+
+            setFont(OneUiTheme.FONT_BUTTON);
+            setForeground(textColor);
     public static class OneButton extends JButton {
         private boolean pressed;
 
@@ -52,20 +68,35 @@ public final class OneUiComponents {
             setContentAreaFilled(false);
             setBorderPainted(false);
             setOpaque(false);
-            setMargin(new Insets(12, 12, 12, 12));
-            setPreferredSize(new Dimension(92, 62));
-            setBackground(primary ? OneUiTheme.PRIMARY : OneUiTheme.SECONDARY);
-            putClientProperty("primary", primary);
-            addMouseListener(new MouseAdapter() {
+            setBorder(BorderFactory.createEmptyBorder());
+            setHorizontalAlignment(CENTER);
+            setVerticalAlignment(CENTER);
+            setPreferredSize(new Dimension(OneUiTheme.BUTTON_DIAMETER, OneUiTheme.BUTTON_DIAMETER));
+            setMinimumSize(new Dimension(OneUiTheme.BUTTON_DIAMETER, OneUiTheme.BUTTON_DIAMETER));
+
+            addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
-                public void mousePressed(MouseEvent e) {
-                    pressed = true;
+                public void mouseEntered(java.awt.event.MouseEvent e) {
+                    isHover = true;
                     repaint();
                 }
 
                 @Override
-                public void mouseReleased(MouseEvent e) {
-                    pressed = false;
+                public void mouseExited(java.awt.event.MouseEvent e) {
+                    isHover = false;
+                    isPress = false;
+                    repaint();
+                }
+
+                @Override
+                public void mousePressed(java.awt.event.MouseEvent e) {
+                    isPress = true;
+                    repaint();
+                }
+
+                @Override
+                public void mouseReleased(java.awt.event.MouseEvent e) {
+                    isPress = false;
                     repaint();
                 }
             });
@@ -73,18 +104,22 @@ public final class OneUiComponents {
 
         @Override
         protected void paintComponent(Graphics g) {
-            boolean primary = (boolean) getClientProperty("primary");
-            Color color;
-            if (pressed) {
-                color = primary ? OneUiTheme.PRIMARY_PRESSED : OneUiTheme.SECONDARY_PRESSED;
-            } else {
-                color = getBackground();
-            }
-
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(color);
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), OneUiTheme.RADIUS_S, OneUiTheme.RADIUS_S);
+
+            Color bg = normal;
+            if (isPress) {
+                bg = press;
+            } else if (isHover) {
+                bg = hover;
+            }
+
+            int diameter = Math.min(getWidth(), getHeight()) - 2;
+            int x = (getWidth() - diameter) / 2;
+            int y = (getHeight() - diameter) / 2;
+
+            g2.setColor(bg);
+            g2.fillOval(x, y, diameter, diameter);
             g2.dispose();
             super.paintComponent(g);
         }
@@ -94,20 +129,15 @@ public final class OneUiComponents {
         public OneTextField() {
             setFont(OneUiTheme.FONT_OUTPUT);
             setForeground(OneUiTheme.TEXT_PRIMARY);
-            setBackground(OneUiTheme.SECONDARY);
-            setCaretColor(OneUiTheme.PRIMARY);
-            setBorder(BorderFactory.createEmptyBorder(16, 18, 16, 18));
+            setBackground(OneUiTheme.BG_CARD);
+            setCaretColor(OneUiTheme.TEXT_PRIMARY);
+            setBorder(BorderFactory.createEmptyBorder(10, 8, 10, 8));
             setOpaque(false);
             setHorizontalAlignment(RIGHT);
         }
 
         @Override
         protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(getBackground());
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), OneUiTheme.RADIUS_M, OneUiTheme.RADIUS_M);
-            g2.dispose();
             super.paintComponent(g);
         }
     }
