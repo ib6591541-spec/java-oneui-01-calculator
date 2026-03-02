@@ -17,6 +17,8 @@ public class CalculatorScreen extends OneUiFrame {
     public CalculatorScreen() {
         super("Калькулятор");
         buildUi();
+        pack();
+        setSize(Math.max(getWidth(), 520), Math.max(getHeight(), 700));
         setLocationRelativeTo(null);
     }
 

@@ -16,7 +16,8 @@ public class OneUiFrame extends JFrame {
     public OneUiFrame(String title) {
         super(title);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(430, 680));
+        setSize(new Dimension(520, 700));
+        setMinimumSize(new Dimension(480, 640));
         getContentPane().setBackground(OneUiTheme.BG_APP);
         setLayout(new BorderLayout());
 
